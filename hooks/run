@@ -1,0 +1,12 @@
+#!/bin/sh
+export GEM_HOME={{pkg.path}}/lib/ruby/2.4.0
+export GEM_PATH={{pkgPathFor "core/ruby24"}}/lib/ruby/2.4.0
+
+runlist=""
+{{#each cfg.runlist}}
+runlist="$runlist,{{this}}"
+{{/each}}
+
+APPBUNDLER_ALLOW_RVM="true" exec chef-client \
+  --runlist "${runlist#,}" \
+  --config "{{pkg.svc_config_path}}/client.rb"
